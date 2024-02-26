@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Vamos al Parque!</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .park-container {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #87CEEB 50%, #98FB98 50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            position: relative;
+        }
+        .bee {
+            position: absolute;
+            bottom: 50px;
+            left: 50px;
+            width: 100px;
+            z-index: 1;
+            transition: left 1s, bottom 1s;
+        }
+        .flowers {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+        .flower {
+            position: relative;
+            cursor: pointer;
+            margin: 0 20px;
+        }
+        .flower img {
+            width: 150px;
+            height: auto;
+        }
+        .x-mark {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 24px;
+            color: red;
+            display: none;
+        }
+        .x-mark.active {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <div class="park-container">
+        <img class="bee" src="bee.png" alt="Abeja feliz">
+        <div class="flowers">
+            <div class="flower" id="flower1">
+                <img src="ugly_flower.png" alt="Flor fea">
+                <span class="x-mark">❌</span>
+            </div>
+            <div class="flower" id="flower2">
+                <img src="ugly_flower.png" alt="Flor fea">
+                <span class="x-mark">❌</span>
+            </div>
+            <div class="flower" id="flower3">
+                <img src="ugly_flower.png" alt="Flor fea">
+                <span class="x-mark">❌</span>
+            </div>
+            <div class="flower" id="sunflower">
+                <img src="sunflower.png" alt="Girasol">
+            </div>
+        </div>
+    </div>
+    <script>
+        const flowers = document.querySelectorAll('.flower');
+        const bee = document.querySelector('.bee');
+
+        flowers.forEach(flower => {
+            flower.addEventListener('click', () => {
+                const flowerRect = flower.getBoundingClientRect();
+                const beeRect = bee.getBoundingClientRect();
+
+                const targetX = flowerRect.left - beeRect.width / 2 + flowerRect.width / 2;
+                const targetY = flowerRect.top - beeRect.height / 2 + flowerRect.height / 2;
+
+                bee.style.left = `${targetX}px`;
+                bee.style.bottom = `${targetY}px`;
+
+                setTimeout(() => {
+                    bee.style.left = '50px';
+                    bee.style.bottom = '50px';
+                }, 1000);
+
+                document.querySelectorAll('.x-mark').forEach(xMark => {
+                    xMark.classList.remove('active');
+                });
+                flower.querySelector('.x-mark').classList.add('active');
+            });
+        });
+
+        const sunflower = document.getElementById('sunflower');
+        sunflower.addEventListener('click', () => {
+            window.location.href = 'siguiente_pagina.html';
+        });
+    </script>
+</body>
+</html>
